@@ -1,20 +1,16 @@
 local cloneref = (cloneref or clonereference or function(instance: any)
     return instance
 end)
-local clonefunction = (clonefunction or copyfunction or function(func) 
-    return func 
-end)
-
-local HttpService: HttpService = cloneref(game:GetService("HttpService"))
+local httpService = cloneref(game:GetService("HttpService"))
+local httprequest = (syn and syn.request) or request or http_request or (http and http.request)
+local getassetfunc = getcustomasset or getsynasset
 local isfolder, isfile, listfiles = isfolder, isfile, listfiles
 
-if typeof(clonefunction) == "function" then
+if typeof(copyfunction) == "function" then
     -- Fix is_____ functions for shitsploits, those functions should never error, only return a boolean.
 
-    local
-        isfolder_copy,
-        isfile_copy,
-        listfiles_copy = clonefunction(isfolder), clonefunction(isfile), clonefunction(listfiles)
+    local isfolder_copy, isfile_copy, listfiles_copy =
+        copyfunction(isfolder), copyfunction(isfile), copyfunction(listfiles)
 
     local isfolder_success, isfolder_error = pcall(function()
         return isfolder_copy("test" .. tostring(math.random(1000000, 9999999)))
@@ -40,7 +36,6 @@ end
 
 local ThemeManager = {}
 do
-    local ThemeFields = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
     ThemeManager.Folder = "ObsidianLibSettings"
     -- if not isfolder(ThemeManager.Folder) then makefolder(ThemeManager.Folder) end
 
@@ -49,76 +44,112 @@ do
     ThemeManager.BuiltInThemes = {
         ["Default"] = {
             1,
-            { FontColor = "ffffff", MainColor = "191919", AccentColor = "7d55ff", BackgroundColor = "0f0f0f", OutlineColor = "282828" },
+            httpService:JSONDecode(
+                [[{"FontColor":"ffffff","MainColor":"191919","AccentColor":"a2a2a2","BackgroundColor":"000000","OutlineColor":"282828"}]]
+            ),
         },
         ["BBot"] = {
             2,
-            { FontColor = "ffffff", MainColor = "1e1e1e", AccentColor = "7e48a3", BackgroundColor = "232323", OutlineColor = "141414" },
+            httpService:JSONDecode(
+                [[{"FontColor":"ffffff","MainColor":"1e1e1e","AccentColor":"7e48a3","BackgroundColor":"232323","OutlineColor":"141414"}]]
+            ),
         },
         ["Fatality"] = {
             3,
-            { FontColor = "ffffff", MainColor = "1e1842", AccentColor = "c50754", BackgroundColor = "191335", OutlineColor = "3c355d" },
+            httpService:JSONDecode(
+                [[{"FontColor":"ffffff","MainColor":"1e1842","AccentColor":"c50754","BackgroundColor":"191335","OutlineColor":"3c355d"}]]
+            ),
         },
         ["Jester"] = {
             4,
-            { FontColor = "ffffff", MainColor = "242424", AccentColor = "db4467", BackgroundColor = "1c1c1c", OutlineColor = "373737" },
+            httpService:JSONDecode(
+                [[{"FontColor":"ffffff","MainColor":"242424","AccentColor":"db4467","BackgroundColor":"1c1c1c","OutlineColor":"373737"}]]
+            ),
         },
         ["Mint"] = {
             5,
-            { FontColor = "ffffff", MainColor = "242424", AccentColor = "3db488", BackgroundColor = "1c1c1c", OutlineColor = "373737" },
+            httpService:JSONDecode(
+                [[{"FontColor":"ffffff","MainColor":"242424","AccentColor":"3db488","BackgroundColor":"1c1c1c","OutlineColor":"373737"}]]
+            ),
         },
         ["Tokyo Night"] = {
             6,
-            { FontColor = "ffffff", MainColor = "191925", AccentColor = "6759b3", BackgroundColor = "16161f", OutlineColor = "323232" },
+            httpService:JSONDecode(
+                [[{"FontColor":"ffffff","MainColor":"191925","AccentColor":"6759b3","BackgroundColor":"16161f","OutlineColor":"323232"}]]
+            ),
         },
         ["Ubuntu"] = {
             7,
-            { FontColor = "ffffff", MainColor = "3e3e3e", AccentColor = "e2581e", BackgroundColor = "323232", OutlineColor = "191919" },
+            httpService:JSONDecode(
+                [[{"FontColor":"ffffff","MainColor":"3e3e3e","AccentColor":"e2581e","BackgroundColor":"323232","OutlineColor":"191919"}]]
+            ),
         },
         ["Quartz"] = {
             8,
-            { FontColor = "ffffff", MainColor = "232330", AccentColor = "426e87", BackgroundColor = "1d1b26", OutlineColor = "27232f" },
+            httpService:JSONDecode(
+                [[{"FontColor":"ffffff","MainColor":"232330","AccentColor":"426e87","BackgroundColor":"1d1b26","OutlineColor":"27232f"}]]
+            ),
         },
         ["Nord"] = {
             9,
-            { FontColor = "eceff4", MainColor = "3b4252", AccentColor = "88c0d0", BackgroundColor = "2e3440", OutlineColor = "4c566a" },
+            httpService:JSONDecode(
+                [[{"FontColor":"eceff4","MainColor":"3b4252","AccentColor":"88c0d0","BackgroundColor":"2e3440","OutlineColor":"4c566a"}]]
+            ),
         },
         ["Dracula"] = {
             10,
-            { FontColor = "f8f8f2", MainColor = "44475a", AccentColor = "ff79c6", BackgroundColor = "282a36", OutlineColor = "6272a4" },
+            httpService:JSONDecode(
+                [[{"FontColor":"f8f8f2","MainColor":"44475a","AccentColor":"ff79c6","BackgroundColor":"282a36","OutlineColor":"6272a4"}]]
+            ),
         },
         ["Monokai"] = {
             11,
-            { FontColor = "f8f8f2", MainColor = "272822", AccentColor = "f92672", BackgroundColor = "1e1f1c", OutlineColor = "49483e" },
+            httpService:JSONDecode(
+                [[{"FontColor":"f8f8f2","MainColor":"272822","AccentColor":"f92672","BackgroundColor":"1e1f1c","OutlineColor":"49483e"}]]
+            ),
         },
         ["Gruvbox"] = {
             12,
-            { FontColor = "ebdbb2", MainColor = "3c3836", AccentColor = "fb4934", BackgroundColor = "282828", OutlineColor = "504945" },
+            httpService:JSONDecode(
+                [[{"FontColor":"ebdbb2","MainColor":"3c3836","AccentColor":"fb4934","BackgroundColor":"282828","OutlineColor":"504945"}]]
+            ),
         },
         ["Solarized"] = {
             13,
-            { FontColor = "839496", MainColor = "073642", AccentColor = "cb4b16", BackgroundColor = "002b36", OutlineColor = "586e75" },
+            httpService:JSONDecode(
+                [[{"FontColor":"839496","MainColor":"073642","AccentColor":"cb4b16","BackgroundColor":"002b36","OutlineColor":"586e75"}]]
+            ),
         },
         ["Catppuccin"] = {
             14,
-            { FontColor = "d9e0ee", MainColor = "302d41", AccentColor = "f5c2e7", BackgroundColor = "1e1e2e", OutlineColor = "575268" },
+            httpService:JSONDecode(
+                [[{"FontColor":"d9e0ee","MainColor":"302d41","AccentColor":"f5c2e7","BackgroundColor":"1e1e2e","OutlineColor":"575268"}]]
+            ),
         },
         ["One Dark"] = {
             15,
-            { FontColor = "abb2bf", MainColor = "282c34", AccentColor = "c678dd", BackgroundColor = "21252b", OutlineColor = "5c6370" },
+            httpService:JSONDecode(
+                [[{"FontColor":"abb2bf","MainColor":"282c34","AccentColor":"c678dd","BackgroundColor":"21252b","OutlineColor":"5c6370"}]]
+            ),
         },
         ["Cyberpunk"] = {
             16,
-            { FontColor = "f9f9f9", MainColor = "262335", AccentColor = "00ff9f", BackgroundColor = "1a1a2e", OutlineColor = "413c5e" },
+            httpService:JSONDecode(
+                [[{"FontColor":"f9f9f9","MainColor":"262335","AccentColor":"00ff9f","BackgroundColor":"1a1a2e","OutlineColor":"413c5e"}]]
+            ),
         },
         ["Oceanic Next"] = {
             17,
-            { FontColor = "d8dee9", MainColor = "1b2b34", AccentColor = "6699cc", BackgroundColor = "16232a", OutlineColor = "343d46" },
+            httpService:JSONDecode(
+                [[{"FontColor":"d8dee9","MainColor":"1b2b34","AccentColor":"6699cc","BackgroundColor":"16232a","OutlineColor":"343d46"}]]
+            ),
         },
         ["Material"] = {
             18,
-            { FontColor = "eeffff", MainColor = "212121", AccentColor = "82aaff", BackgroundColor = "151515", OutlineColor = "424242" },
-        }
+            httpService:JSONDecode(
+                [[{"FontColor":"eeffff","MainColor":"212121","AccentColor":"82aaff","BackgroundColor":"151515","OutlineColor":"424242"}]]
+            ),
+        },
     }
 
     function ThemeManager:SetLibrary(library)
@@ -197,7 +228,8 @@ do
     end
 
     function ThemeManager:ThemeUpdate()
-        for i, field in ThemeFields do
+        local options = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
+        for i, field in pairs(options) do
             if self.Library.Options and self.Library.Options[field] then
                 self.Library.Scheme[field] = self.Library.Options[field].Value
             end
@@ -214,7 +246,7 @@ do
         end
 
         local data = readfile(path)
-        local success, decoded = pcall(HttpService.JSONDecode, HttpService, data)
+        local success, decoded = pcall(httpService.JSONDecode, httpService, data)
 
         if not success then
             return nil
@@ -256,15 +288,14 @@ do
 
         local FinalTheme = {}
         local LibraryScheme = {}
-        for _, field in ThemeFields do
+        local fields = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
+        for _, field in pairs(fields) do
             if typeof(theme[field]) == "Color3" then
-                FinalTheme[field] = "#" .. theme[field]:ToHex()
+                FinalTheme[field] = `#{theme[field]:ToHex()}`
                 LibraryScheme[field] = theme[field]
-
             elseif typeof(theme[field]) == "string" then
-                FinalTheme[field] = if theme[field]:sub(1, 1) == "#" then theme[field] else ("#" .. theme[field])
+                FinalTheme[field] = if theme[field]:sub(1, 1) == "#" then theme[field] else `#{theme[field]}`
                 LibraryScheme[field] = Color3.fromHex(theme[field])
-
             else
                 FinalTheme[field] = ThemeManager.BuiltInThemes["Default"][2][field]
                 LibraryScheme[field] = Color3.fromHex(ThemeManager.BuiltInThemes["Default"][2][field])
@@ -274,17 +305,15 @@ do
         if typeof(theme["FontFace"]) == "EnumItem" then
             FinalTheme["FontFace"] = theme["FontFace"].Name
             LibraryScheme["Font"] = Font.fromEnum(theme["FontFace"])
-
         elseif typeof(theme["FontFace"]) == "string" then
             FinalTheme["FontFace"] = theme["FontFace"]
             LibraryScheme["Font"] = Font.fromEnum(Enum.Font[theme["FontFace"]])
-
         else
-            FinalTheme["FontFace"] = "Code"
-            LibraryScheme["Font"] = Font.fromEnum(Enum.Font.Code)
+            FinalTheme["FontFace"] = "Gotham"
+            LibraryScheme["Font"] = Font.fromEnum(Enum.Font.Gotham)
         end
 
-        for _, field in { "RedColor", "DarkColor", "WhiteColor" } do
+        for _, field in pairs({ "Red", "Dark", "White" }) do
             LibraryScheme[field] = self.Library.Scheme[field]
         end
 
@@ -296,17 +325,18 @@ do
 
     function ThemeManager:SaveCustomTheme(file)
         if file:gsub(" ", "") == "" then
-            self.Library:Notify("Invalid file name for theme (empty)", 3)
-            return
+            return self.Library:Notify("Invalid file name for theme (empty)", 3)
         end
 
         local theme = {}
-        for _, field in ThemeFields do
+        local fields = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
+
+        for _, field in pairs(fields) do
             theme[field] = self.Library.Options[field].Value:ToHex()
         end
         theme["FontFace"] = self.Library.Options["FontFace"].Value
 
-        writefile(self.Folder .. "/themes/" .. file .. ".json", HttpService:JSONEncode(theme))
+        writefile(self.Folder .. "/themes/" .. file .. ".json", httpService:JSONEncode(theme))
     end
 
     function ThemeManager:Delete(name)
@@ -367,7 +397,7 @@ do
         groupbox:AddLabel("Font color"):AddColorPicker("FontColor", { Default = self.Library.Scheme.FontColor })
         groupbox:AddDropdown("FontFace", {
             Text = "Font Face",
-            Default = "Code",
+            Default = "Gotham",
             Values = { "BuilderSans", "Code", "Fantasy", "Gotham", "Jura", "Roboto", "RobotoMono", "SourceSans" },
         })
 
@@ -398,16 +428,8 @@ do
 
         groupbox:AddInput("ThemeManager_CustomThemeName", { Text = "Custom theme name" })
         groupbox:AddButton("Create theme", function()
-            local name = self.Library.Options.ThemeManager_CustomThemeName.Value
+            self:SaveCustomTheme(self.Library.Options.ThemeManager_CustomThemeName.Value)
 
-            if name:gsub(" ", "") == "" then
-                self.Library:Notify("Invalid theme name (empty)", 2)
-                return
-            end
-
-            self:SaveCustomTheme(name)
-
-            self.Library:Notify(string.format("Created theme %q", name))
             self.Library.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
             self.Library.Options.ThemeManager_CustomThemeList:SetValue(nil)
         end)
@@ -435,8 +457,7 @@ do
 
             local success, err = self:Delete(name)
             if not success then
-                self.Library:Notify("Failed to delete theme: " .. err)
-                return
+                return self.Library:Notify("Failed to delete theme: " .. err)
             end
 
             self.Library:Notify(string.format("Deleted theme %q", name))
@@ -461,8 +482,7 @@ do
         groupbox:AddButton("Reset default", function()
             local success = pcall(delfile, self.Folder .. "/themes/default.txt")
             if not success then
-                self.Library:Notify("Failed to reset default: delete file error")
-                return
+                return self.Library:Notify("Failed to reset default: delete file error")
             end
 
             self.Library:Notify("Set default theme to nothing")
@@ -476,7 +496,6 @@ do
         local function UpdateTheme()
             self:ThemeUpdate()
         end
-
         self.Library.Options.BackgroundColor:OnChanged(UpdateTheme)
         self.Library.Options.MainColor:OnChanged(UpdateTheme)
         self.Library.Options.AccentColor:OnChanged(UpdateTheme)
