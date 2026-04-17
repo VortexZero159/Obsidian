@@ -6496,40 +6496,8 @@ UIGradient.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0.60, Color3.fromRGB(139, 0, 255)),
     ColorSequenceKeypoint.new(0.70, Color3.fromRGB(255, 0, 0)),
     ColorSequenceKeypoint.new(0.80, Color3.fromRGB(255, 127, 0)),
-    ColorSequenceKeypoint.new(0.90, Color3.fromRGB(255, 255, 0)),
-    ColorSequenceKeypoint.new(1.00, Color3.fromRGB(0, 255, 0))
-}
-UIGradient.Rotation = 0
-UIGradient.Parent = WindowTitle
 
-if not LayoutState.IsCompact then
-    LayoutRefs.WindowTitleGradient = UIGradient
-    
-    local gradientAnimation = game:GetService("RunService").RenderStepped:Connect(function(deltaTime)
-        if not WindowTitle:IsDescendantOf(game) or WindowTitle.Parent == nil then
-            gradientAnimation:Disconnect()
-            return
-        end
-        
-        UIGradient.Rotation = UIGradient.Rotation + (90 * deltaTime)
-        if UIGradient.Rotation >= 360 then
-            UIGradient.Rotation = UIGradient.Rotation - 360
-        end
-    end)
-    
-    LayoutRefs.GradientAnimationSpeed = 0.25
-    LayoutRefs.GradientAnimation = gradientAnimation
-    
-    local MaxTextWidth = math.max(0, InitialSidebarWidth - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 12 or 12))
-    local TextWidth = Library:GetTextBounds(WindowTitle.Text, Library.Scheme.Font, 20, MaxTextWidth)
-    WindowTitle.Size = UDim2.new(0, TextWidth, 1, 0)
-else
-    WindowTitle.Size = UDim2.new(0, 0, 1, 0)
-end
-
-LayoutRefs.WindowTitle = WindowTitle
-
-        --// Top Right Bar
+		--// Top Right Bar
         local RightWrapper = New("Frame", {
             BackgroundTransparency = 1,
             AnchorPoint = Vector2.new(0, 0.5),
