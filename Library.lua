@@ -6787,7 +6787,7 @@ local PlayerInfoFrame = New("Frame", {
             Parent = PlayerInfoFrame,
         })
 
-        local UserLabel = New("TextLabel", {
+        local AXUserLabel = New("TextLabel", {
             BackgroundTransparency = 1,
             Size = UDim2.new(0, 80, 0, 12),
             Position = UDim2.fromOffset(50, 14),
@@ -6811,7 +6811,7 @@ local PlayerInfoFrame = New("Frame", {
                 AvatarImage.ImageTransparency = 1
                 DisplayNameLabel.Visible = false
                 UsernameLabel.Visible = false
-                UserLabel.Visible = true
+                AXUserLabel.Visible = true
             else
                 AvatarImage.Image = avatarUrl
                 AvatarImage.BackgroundTransparency = 1
@@ -6819,7 +6819,7 @@ local PlayerInfoFrame = New("Frame", {
                 AvatarImage.ImageTransparency = 0
                 DisplayNameLabel.Visible = true
                 UsernameLabel.Visible = true
-                UserLabel.Visible = false
+                AXUserLabel.Visible = false
             end
             local marginBottom = 40
             Tabs.CanvasSize = UDim2.new(0, 0, 0, Tabs.UIListLayout.AbsoluteContentSize.Y + marginBottom)
