@@ -1,3 +1,4 @@
+--This Obsidian UI Library only supported ThemeManager_Purple
 local cloneref = (cloneref or clonereference or function(instance: any)
 	return instance
 end)
